@@ -20,15 +20,18 @@ for row in contacts_list[1:]:
             if not contacts_dict[key][i]:
                 contacts_dict[key][i] = row[i]
 updated_contacts_list = [contacts_list[0]] + list(contacts_dict.values())
-phone_pattern = r"(\+7|8)?\s*?\(?(\d{3,5})\)?\s*?(\d{1,3})[-\s]?(\d{2})[-\s]?(\d{2}?)"
-replacement_pattern = r"+7(\2)\3-\4-\5"
+phone_pattern = r"(\+7|8)?\s*\(?(\d{3})\)?[\s-]*(\d{3})[\s-]*(\d{2})[\s-]*(\d{2})"
+ext_pattern = r"\s*?\(?доб\.?\s*?(\d{4})\)?"
+repl_phone_pattern = r"+7(\2)\3-\4-\5"
+relp_ext_pattern = r" доб.\1"
 for row in updated_contacts_list[1:]:
-    row[5] = re.sub(phone_pattern,replacement_pattern,row[5])
-#pprint(updated_contacts_list)
+    row[5] = re.sub(phone_pattern,repl_phone_pattern,row[5])
+    row[5] = re.sub(ext_pattern, relp_ext_pattern, row[5])
+pprint(updated_contacts_list)
 
 # TODO 2: сохраните получившиеся данные в другой файл
 # код для записи файла в формате CSV
-with open("phonebook.csv", "w", encoding="utf-8") as f:
+with open("phonebook.csv", "w", encoding="utf-8", newline = "") as f:
   datawriter = csv.writer(f, delimiter=',')
   # Вместо contacts_list подставьте свой список
   datawriter.writerows(updated_contacts_list)

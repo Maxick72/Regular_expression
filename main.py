@@ -35,7 +35,7 @@ repl_ext_pattern = r" доб.\1"
 for row in updated_contacts_list[1:]:
     row[5] = re.sub(phone_pattern,repl_phone_pattern,row[5])
     row[5] = re.sub(ext_pattern, repl_ext_pattern, row[5])
-#pprint(updated_contacts_list)
+# pprint(updated_contacts_list)
 # TODO 2: сохраните получившиеся данные в другой файл
 # код для записи файла в формате CSV
 with open("phonebook.csv", "w", encoding="utf-8", newline = "") as f:

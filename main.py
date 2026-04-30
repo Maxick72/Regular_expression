@@ -27,17 +27,12 @@ for row in contacts_list[1:]:
     else:
         for exist_key in contacts_dict:
             if len(exist_key) >= 3 :
-                # for i in range(len(exist_key) - len(key) + 1):
                 if exist_key[0:3] == key or exist_key[0:2] == key :
                     for i in range(3, len(row)):
                         if not contacts_dict[exist_key][i]:
                             contacts_dict[exist_key][i] = row[i]
-                        # else:
-                        #     for i in range(3):
-                        #         row[i] = fio_parts[i] if i < len(fio_parts) else ""
-                        #     contacts_dict[key] = row
+
             elif len(exist_key) == 2:
-                # for i in range(len(exist_key) - len(key) + 1):
                 if exist_key == key or exist_key == key[0:2]:
                     for i in range(3, len(row)):
                         if not contacts_dict[exist_key][i]:
@@ -45,11 +40,10 @@ for row in contacts_list[1:]:
             else:
                 print(f' Отсутствует ФАМИЛИЯ или ИМЯ сотрудника {key} , запись не обработана')
 
-#pprint(contacts_dict.values())
 updated_contacts_list = [contacts_list[0]] + list(contacts_dict.values())
 phone_pattern = r"(\+7|8)?\s*\(?(\d{3})\)?[\s-]*(\d{3})[\s-]*(\d{2})[\s-]*(\d{2})"
 ext_pattern = r"\s*?\(?доб\.?\s*?(\d{4})\)?"
-repl_phone_pattern = r"+7(\2)\3-\4-\5"
+repl_phone_pattern = r"\+7(\2)\3-\4-\5"
 repl_ext_pattern = r" доб.\1"
 for row in updated_contacts_list[1:]:
     row[5] = re.sub(phone_pattern,repl_phone_pattern,row[5])

@@ -1,16 +1,14 @@
-from pprint import pprint
-# читаем адресную книгу в формате CSV в список contacts_list
 import csv
 import re
 with open("phonebook_raw.csv", encoding="utf-8") as f:
   rows = csv.reader(f, delimiter=",")
   contacts_list = list(rows)
-#pprint(contacts_list)
+
 contacts_dict = {}
-# TODO 1: выполните пункты 1-3 ДЗ
+
 for row in contacts_list[1:]:
     fio_parts = " ".join (row [:3]).split()
-    # print(fio_parts)
+
     if len(fio_parts) >= 3:
         key = (fio_parts[0], fio_parts[1], fio_parts[2])
     elif len(fio_parts) >= 2:
@@ -43,15 +41,12 @@ for row in contacts_list[1:]:
 updated_contacts_list = [contacts_list[0]] + list(contacts_dict.values())
 phone_pattern = r"(\+7|8)?\s*\(?(\d{3})\)?[\s-]*(\d{3})[\s-]*(\d{2})[\s-]*(\d{2})"
 ext_pattern = r"\s*?\(?доб\.?\s*?(\d{4})\)?"
-repl_phone_pattern = r"\+7(\2)\3-\4-\5"
+repl_phone_pattern = r"+7(\2)\3-\4-\5"
 repl_ext_pattern = r" доб.\1"
 for row in updated_contacts_list[1:]:
     row[5] = re.sub(phone_pattern,repl_phone_pattern,row[5])
     row[5] = re.sub(ext_pattern, repl_ext_pattern, row[5])
-# pprint(updated_contacts_list)
-# TODO 2: сохраните получившиеся данные в другой файл
-# код для записи файла в формате CSV
+
 with open("phonebook.csv", "w", encoding="utf-8", newline = "") as f:
   datawriter = csv.writer(f, delimiter=',')
-  # Вместо contacts_list подставьте свой список
   datawriter.writerows(updated_contacts_list)
